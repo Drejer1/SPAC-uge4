@@ -53,4 +53,5 @@ to
 ## Feedback wanted On
 - This readme
 - I realise I only do very surface level exception handling, are there any more errors if fixed would result in more PDFs being downloaded.
+- The diagram i created is not really UML but i didnt program with OOP in mind for this assignment which UML is kinda closely related to. The diagram gives a very broad overview of how the program works. Is it fine or should I have gone for some specific diagram type instead?
 - There is a weird error where whenever the program finishes(or is about to finish i suppose) A lot of exceptions appear which looks to be related to the threads not being deleted properly, but all the threads are joined and all the writes to files happens within "with" statements so I am at a loss as to why the errors appears.    
