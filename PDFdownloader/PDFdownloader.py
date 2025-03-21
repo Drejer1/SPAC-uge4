@@ -46,7 +46,7 @@ def append_to_txt(buffer:list[PDFmeta]) -> None:
                 txt.writelines(f"{PDFm.name}, {PDFm.downloadSuccess}\n")
 
 #The function used to make requests.
-def downloadPDF(url,new_save_path) -> bool:
+def downloadPDF(url:str,new_save_path:str) -> bool:
     try:
         response = requests.get(url,timeout=10)
         if response.headers['Content-Type'] == 'application/pdf':
@@ -78,7 +78,7 @@ def downloader(PDFm: PDFmeta,save_path:str) -> PDFmeta:
 
 #Reads the xlsx file and fills the queue with PDFmeta objects which defines the objects that tasks need to process.
 #Also returns the size of the queue for usage in tqdm as from the documentation Queue.qsize() retreives the "aproximate size" and is not reliable.
-def readxlxsAndCreatequeue(path,queue,savefolder):
+def readxlxsAndCreatequeue(path:str,queue:Queue,savefolder:str)-> None:
     df = pd.read_excel(path)
     name_column = df["BRnum"]
     AL_column = df["Pdf_URL"]
@@ -95,7 +95,7 @@ def readxlxsAndCreatequeue(path,queue,savefolder):
     return size
 
 #Main function
-def main ():
+def main () -> None:
     savefolder = "downloads"
     queue = Queue()
     queueSize = readxlxsAndCreatequeue(os.path.join("Data","GRI_2017_2020.xlsx"),queue,savefolder)
@@ -104,7 +104,7 @@ def main ():
     num_threads = 20
     pool = []
     buffer= []
-    #workerUrls is declared with 20 values inorder to later access them by the index of the threads, so each Thread has their own assigned spot in workedUrls
+    #workerUrls is declared with the num_threads value inorder to later access them by the index of the threads, so each Thread has their own assigned spot in workedUrls
     workedUrls = ["Not Started"] * num_threads
     with tqdm(total=queueSize, desc="Download PDFs") as pbar:
         for index in range(num_threads):
