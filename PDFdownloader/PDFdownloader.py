@@ -43,7 +43,7 @@ def append_to_txt(buffer:list[PDFmeta]) -> None:
             temp.append(buffer.pop(0))
         with open("download_log.txt","a") as txt:
             for PDFm in temp:
-                txt.writelines(f"{PDFm.name}, {PDFm.downloadSuccess}")
+                txt.writelines(f"{PDFm.name}, {PDFm.downloadSuccess}\n")
 
 #The function used to make requests.
 def downloadPDF(url,new_save_path) -> bool:
@@ -78,15 +78,19 @@ def downloader(PDFm: PDFmeta,save_path:str) -> PDFmeta:
 
 #Reads the xlsx file and fills the queue with PDFmeta objects which defines the objects that tasks need to process.
 #Also returns the size of the queue for usage in tqdm as from the documentation Queue.qsize() retreives the "aproximate size" and is not reliable.
-def readxlxsAndCreatequeue(path,queue):
+def readxlxsAndCreatequeue(path,queue,savefolder):
     df = pd.read_excel(path)
     name_column = df["BRnum"]
     AL_column = df["Pdf_URL"]
     AM_column = df["Report Html Address"]
     size = 0
     for name, al , am in zip(name_column,AL_column,AM_column):
-        queue.put(PDFmeta(name,al,am))
-        size +=1
+        if not os.path.exists(os.path.join(savefolder,name+".pdf")):
+            queue.put(PDFmeta(name,al,am))
+            size +=1
+            #TODO: I should technically add the already download PDFs to the txt as successes. 
+            #I would then also likely have to load the txt again in order to sort it,
+            #and at that point i might as well just keep everything in a list until the end, making the buffer redundant... 
     print(f"{size}  Number of PDFmeta in Queue")
     return size
 
@@ -94,7 +98,7 @@ def readxlxsAndCreatequeue(path,queue):
 def main ():
     savefolder = "downloads"
     queue = Queue()
-    queueSize = readxlxsAndCreatequeue(os.path.join("Data","GRI_2017_2020.xlsx"),queue)
+    queueSize = readxlxsAndCreatequeue(os.path.join("Data","GRI_2017_2020.xlsx"),queue,savefolder)
     PDFmCounter = 0
     result = queue.get()
     num_threads = 20
