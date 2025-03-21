@@ -42,9 +42,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\Copy of GRI_2017_2020_Short.xlsx" />
+    <Content Include="Data\GRI_2017_2020_Short.xlsx" />
     <Content Include="Data\GRI_2017_2020.xlsx" />
     <Content Include="Data\Metadata2006_2016.xlsx" />
+    <Content Include="requirements.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

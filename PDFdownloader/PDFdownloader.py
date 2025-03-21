@@ -10,6 +10,8 @@ from queue import Queue
 from Models.PDFmeta import PDFmeta  # type: ignore
 from tqdm import tqdm
 
+xlsx = "GRI_2017_2020.xlsx"
+
 logger = logging.getLogger(__name__)
 loggingLevel = logging.DEBUG
 logging.basicConfig(filename='failedDownloads.log', encoding ='utf-8',level = loggingLevel)
@@ -98,7 +100,7 @@ def readxlxsAndCreatequeue(path:str,queue:Queue,savefolder:str)-> None:
 def main () -> None:
     savefolder = "downloads"
     queue = Queue()
-    queueSize = readxlxsAndCreatequeue(os.path.join("Data","GRI_2017_2020.xlsx"),queue,savefolder)
+    queueSize = readxlxsAndCreatequeue(os.path.join("Data",xlsx),queue,savefolder)
     PDFmCounter = 0
     result = queue.get()
     num_threads = 20
