@@ -89,7 +89,7 @@ def readxlxsAndCreatequeue(path,queue,savefolder):
             queue.put(PDFmeta(name,al,am))
             size +=1
             #TODO: I should technically add the already download PDFs to the txt as successes. 
-            #I would then also likely have to load the txt again in order to sort it,
+            #I also just realised the entries being sorted might be valued so I also have to load the txt again in order to sort it,
             #and at that point i might as well just keep everything in a list until the end, making the buffer redundant... 
     print(f"{size}  Number of PDFmeta in Queue")
     return size
